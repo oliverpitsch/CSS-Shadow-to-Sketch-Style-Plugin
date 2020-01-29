@@ -64,7 +64,7 @@ function RGBAToHexA(rgba) {
 // Get CSS Shadow Input as String
 var getShadowInput = function(){
   UI.getInputFromUser(
-      "Gimme that shadow, please.",
+      "🖍 Please insert the CSS box-shadow.",
       {
         initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
       },
