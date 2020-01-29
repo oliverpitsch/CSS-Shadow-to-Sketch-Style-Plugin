@@ -7,6 +7,7 @@ var DataSupplier = require('sketch/data-supplier')
 var Settings = require('sketch/settings')
 var Style = require('sketch/dom').Style
 
+
 var document = sketch.getSelectedDocument()
 
 var selectedLayers = document.selectedLayers
@@ -83,25 +84,32 @@ var getShadowInput = function(){
 var getShadowInputData = function() {
 
   splittetInput = shadowInput.split(": ")
-  splittetInput = splittetInput[1].split(";")
-  splittetInput = splittetInput[0]
-  splittetInput = splittetInput.split(" ")
+  sketch.UI.message(splittetInput.length)
 
-  if (splittetInput.length == 5) {
+  if (splittetInput.length >= 2) {
+    splittetInput = splittetInput[1].split(";")
+  } else {
+    splittetInput = splittetInput[0].split(";")
+  }
+  
+  splittetInput = splittetInput[0].split(" ")
+  sketch.UI.message(splittetInput.length)
+
+  // splittetInput = splittetInput
+  // sketch.UI.message(splittetInput.length)
+
+  if (splittetInput.length === 5) {
     inputX = splittetInput[0]
     inputY = splittetInput[1]
     inputBlur = splittetInput[2]
     inputSpread = splittetInput[3]
-    sketch.UI.message(splittetInput[4])
     inputColor = RGBAToHexA(splittetInput[4])
   }
-  else if (splittetInput.length == 4) {
+  else if (splittetInput.length === 4) {
     inputX = splittetInput[0]
     inputY = splittetInput[1]
     inputBlur = splittetInput[2]
-    sketch.UI.message(splittetInput[3])
-    inputColor = RGBAToHexA(splittetInput[3])
-    
+    inputColor = RGBAToHexA(splittetInput[3])    
   }
   else {
     sketch.UI.message("Wrong Input, sorry. 😢")
