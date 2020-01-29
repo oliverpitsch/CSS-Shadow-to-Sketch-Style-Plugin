@@ -22,22 +22,22 @@ var inputColor = "#0000ff"
 
 // RGBA to Hex from https://css-tricks.com/converting-color-spaces-in-javascript/
 function RGBAToHexA(rgba) {
-  let sep = rgba.indexOf(",") > -1 ? "," : " ";
-  rgba = rgba.substr(5).split(")")[0].split(sep);
+  let sep = rgba.indexOf(",") > -1 ? "," : " "
+  rgba = rgba.substr(5).split(")")[0].split(sep)
                 
   // Strip the slash if using space-separated syntax
   if (rgba.indexOf("/") > -1)
-    rgba.splice(3,1);
+    rgba.splice(3,1)
 
   for (let R in rgba) {
     let r = rgba[R];
     if (r.indexOf("%") > -1) {
-      let p = r.substr(0,r.length - 1) / 100;
+      let p = r.substr(0,r.length - 1) / 100
 
       if (R < 3) {
-        rgba[R] = Math.round(p * 255);
+        rgba[R] = Math.round(p * 255)
       } else {
-        rgba[R] = p;
+        rgba[R] = p
       }
     }
   }
@@ -45,7 +45,7 @@ function RGBAToHexA(rgba) {
   let r = (+rgba[0]).toString(16),
       g = (+rgba[1]).toString(16),
       b = (+rgba[2]).toString(16),
-      a = Math.round(+rgba[3] * 255).toString(16);
+      a = Math.round(+rgba[3] * 255).toString(16)
 
   if (r.length == 1)
     r = "0" + r;
@@ -56,7 +56,7 @@ function RGBAToHexA(rgba) {
   if (a.length == 1)
     a = "0" + a;
 
-  return "#" + r + g + b + a;
+  return "#" + r + g + b + a
 }
 
 
@@ -75,15 +75,16 @@ var getShadowInput = function(){
         }
         else {
           shadowInput = value
-          getShadowInputData()
+          getShadowInputData(shadowInput)
         }
       }
     )
 }
 
-var getShadowInputData = function() {
+var splitShadow = function(inputCSS) {
+  // Split the Shadow Input taking care if it contains "box-shadow: " or not …
 
-  splittetInput = shadowInput.split(": ")
+  splittetInput = inputCSS.split(": ")
   sketch.UI.message(splittetInput.length)
 
   if (splittetInput.length >= 2) {
@@ -94,10 +95,12 @@ var getShadowInputData = function() {
   
   splittetInput = splittetInput[0].split(" ")
   sketch.UI.message(splittetInput.length)
+}
 
-  // splittetInput = splittetInput
-  // sketch.UI.message(splittetInput.length)
+var getShadowInputData = function(input) {
 
+  splitShadow(input)
+  
   if (splittetInput.length === 5) {
     inputX = splittetInput[0]
     inputY = splittetInput[1]
