@@ -19,6 +19,9 @@ var inputY = "0"
 var inputBlur = "0"
 var inputSpread = "0"
 var inputColor = "#0000ff"
+var numberOfShadows = '1'
+var singleShadow = ""
+var multipleShadows = ""
 
 // RGBA to Hex from https://css-tricks.com/converting-color-spaces-in-javascript/
 function RGBAToHexA(rgba) {
@@ -66,7 +69,8 @@ var getShadowInput = function(){
   UI.getInputFromUser(
       "🖍 Please insert the CSS box-shadow.",
       {
-        initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
+        initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);'
+        // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
       },
       (err, value) => {
         if (err) {
@@ -75,7 +79,6 @@ var getShadowInput = function(){
         }
         else {
           shadowInput = value
-          getShadowInputData(shadowInput)
         }
       }
     )
@@ -85,49 +88,74 @@ var splitShadow = function(inputCSS) {
   // Split the Shadow Input taking care if it contains "box-shadow: " or not …
 
   splittetInput = inputCSS.split(": ")
-  sketch.UI.message(splittetInput.length)
 
   if (splittetInput.length >= 2) {
     splittetInput = splittetInput[1].split(";")
   } else {
     splittetInput = splittetInput[0].split(";")
   }
-  
-  splittetInput = splittetInput[0].split(" ")
-  sketch.UI.message(splittetInput.length)
+
+  var checkForMultipleShadows = inputCSS.split("rgba");
+
+  if (checkForMultipleShadows > 1) {
+    console.log("Single Shadow detected")
+  }
+  else {
+    console.log("Multiple Shadow detected")
+  }
+
+  if (splittetInput.length <= 2) {
+    singleShadow = splittetInput[0].split(" ")
+    console.log("Single Shadow: " + singleShadow)
+  }
+  else {
+    numberOfShadows = multipleShadows.length
+    console.log("Multiple Shadows registered")
+    console.log(multipleShadows)
+  }
+
 }
 
 var getShadowInputData = function(input) {
-
-  splitShadow(input)
   
-  if (splittetInput.length === 5) {
-    inputX = splittetInput[0]
-    inputY = splittetInput[1]
-    inputBlur = splittetInput[2]
-    inputSpread = splittetInput[3]
-    inputColor = RGBAToHexA(splittetInput[4])
+  if (input.length === 5) {
+    inputX = input[0]
+    inputY = input[1]
+    inputBlur = input[2]
+    inputSpread = input[3]
+    inputColor = RGBAToHexA(input[4])
   }
-  else if (splittetInput.length === 4) {
-    inputX = splittetInput[0]
-    inputY = splittetInput[1]
-    inputBlur = splittetInput[2]
-    inputColor = RGBAToHexA(splittetInput[3])    
+  else if (input.length === 4) {
+    inputX = input[0]
+    inputY = input[1]
+    inputBlur = input[2]
+    inputColor = RGBAToHexA(input[3])    
   }
   else {
     sketch.UI.message("Wrong Input, sorry. 😢")
   }
-
 }
 
 
-// This function runs it all
-export default function() {
+var applyShadow = function(shadow) {
+  getShadowInputData(shadow)
+  selectedLayers.forEach(function (layer, i) {
+    layer.style.shadows = [{
+      x: inputX,
+      y: inputY,
+      blur: inputBlur,
+      spread: inputSpread,
+      color: inputColor,
+      enabled: true
+    }]
+  })
+  sketch.UI.message("🎉 Shadow applied successfully!")
+}
 
-  if (selectedCount === 0) {
-    sketch.UI.message("☝️ Please select a layer first.")
-  } else {
-    getShadowInput()
+var applyMultipleShadows = function(multipleShadows) {
+
+  multipleShadows.forEach(function (shadow, i){
+    getShadowInputData(shadow)
     selectedLayers.forEach(function (layer, i) {
       layer.style.shadows = [{
         x: inputX,
@@ -138,7 +166,17 @@ export default function() {
         enabled: true
       }]
     })
+  })
+}
+
+// This function runs it all
+export default function() {
+  if (selectedCount === 0) {
+    sketch.UI.message("☝️ Please select a layer first.")
+  } else {
+    getShadowInput()
+    splitShadow(shadowInput)
+    applyShadow(singleShadow)
+
   }
-
-
 }
