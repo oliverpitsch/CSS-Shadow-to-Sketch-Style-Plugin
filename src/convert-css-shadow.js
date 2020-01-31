@@ -95,29 +95,33 @@ var splitShadow = function(inputCSS) {
     splittetInput = splittetInput[0].split(";")
   }
 
-  var checkForMultipleShadows = inputCSS.split("rgba");
+  splittetInput = splittetInput[0].split(" ")
 
-  if (checkForMultipleShadows > 1) {
-    console.log("Single Shadow detected")
-  }
-  else {
-    console.log("Multiple Shadow detected")
-  }
+  // const regExForCommaSeparation = '\w+(\([^)]+\))?'
 
-  if (splittetInput.length <= 2) {
-    singleShadow = splittetInput[0].split(" ")
-    console.log("Single Shadow: " + singleShadow)
-  }
-  else {
-    numberOfShadows = multipleShadows.length
-    console.log("Multiple Shadows registered")
-    console.log(multipleShadows)
-  }
+  // var checkForMultipleShadows = inputCSS.split(regExForCommaSeparation);
+  // console.log(checkForMultipleShadows)
+
+  // if (checkForMultipleShadows > 1) {
+  //   console.log("Single Shadow detected")
+  // }
+  // else {
+  //   console.log("Multiple Shadow detected")
+  // }
+
+  // if (splittetInput.length <= 2) {
+  //   singleShadow = splittetInput[0].split(" ")
+  //   console.log("Single Shadow: " + singleShadow)
+  // }
+  // else {
+  //   numberOfShadows = multipleShadows.length
+  //   console.log("Multiple Shadows registered")
+  //   console.log(multipleShadows)
+  // }
 
 }
 
 var getShadowInputData = function(input) {
-  
   if (input.length === 5) {
     inputX = input[0]
     inputY = input[1]
@@ -136,38 +140,42 @@ var getShadowInputData = function(input) {
   }
 }
 
-
 var applyShadow = function(shadow) {
   getShadowInputData(shadow)
+
   selectedLayers.forEach(function (layer, i) {
-    layer.style.shadows = [{
+    console.log(layer.style.shadows.length)
+    var layerShadows = layer.style.shadows
+    layer.style.shadows = layerShadows.concat([{
       x: inputX,
       y: inputY,
       blur: inputBlur,
       spread: inputSpread,
       color: inputColor,
       enabled: true
-    }]
+    }])
+    console.log(layer.style.shadows.length)
   })
   sketch.UI.message("🎉 Shadow applied successfully!")
+
 }
 
-var applyMultipleShadows = function(multipleShadows) {
+// var applyMultipleShadows = function(multipleShadows) {
 
-  multipleShadows.forEach(function (shadow, i){
-    getShadowInputData(shadow)
-    selectedLayers.forEach(function (layer, i) {
-      layer.style.shadows = [{
-        x: inputX,
-        y: inputY,
-        blur: inputBlur,
-        spread: inputSpread,
-        color: inputColor,
-        enabled: true
-      }]
-    })
-  })
-}
+//   multipleShadows.forEach(function (shadow, i){
+//     getShadowInputData(shadow)
+//     selectedLayers.forEach(function (layer, i) {
+//       layer.style.shadows = [{
+//         x: inputX,
+//         y: inputY,
+//         blur: inputBlur,
+//         spread: inputSpread,
+//         color: inputColor,
+//         enabled: true
+//       }]
+//     })
+//   })
+// }
 
 // This function runs it all
 export default function() {
@@ -176,7 +184,7 @@ export default function() {
   } else {
     getShadowInput()
     splitShadow(shadowInput)
-    applyShadow(singleShadow)
+    applyShadow(splittetInput)
 
   }
 }
