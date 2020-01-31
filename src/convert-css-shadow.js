@@ -69,7 +69,7 @@ var getShadowInput = function(){
   UI.getInputFromUser(
       "🖍 Please insert the CSS box-shadow.",
       {
-        initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);'
+        initialValue: 'box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);'
         // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
       },
       (err, value) => {
@@ -86,6 +86,13 @@ var getShadowInput = function(){
 
 var splitShadow = function(inputCSS) {
   // Split the Shadow Input taking care if it contains "box-shadow: " or not …
+
+  // Remove Spaces in RGBA specification
+  inputCSS = inputCSS.split("rgba")
+  if (inputCSS[1].split(", ").length > 0){
+    inputCSS[1] = inputCSS[1].split(", ").join()
+  }
+  inputCSS = inputCSS[0] + "rgba" + inputCSS[1]
 
   splittetInput = inputCSS.split(": ")
 
@@ -154,7 +161,6 @@ var applyShadow = function(shadow) {
       color: inputColor,
       enabled: true
     }])
-    console.log(layer.style.shadows.length)
   })
   sketch.UI.message("🎉 Shadow applied successfully!")
 
