@@ -69,7 +69,7 @@ var getShadowInput = function(){
   UI.getInputFromUser(
       "🖍 Please insert the CSS box-shadow.",
       {
-        initialValue: 'box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);'
+        initialValue: 'box-shadow: 0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 100px 80px rgba(0, 0, 0, 0.07);'
         // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
       },
       (err, value) => {
@@ -84,25 +84,32 @@ var getShadowInput = function(){
     )
 }
 
-var splitShadow = function(inputCSS) {
-  // Split the Shadow Input taking care if it contains "box-shadow: " or not …
-
-  // Remove Spaces in RGBA specification
-  inputCSS = inputCSS.split("rgba")
-  if (inputCSS[1].split(", ").length > 0){
-    inputCSS[1] = inputCSS[1].split(", ").join()
-  }
-  inputCSS = inputCSS[0] + "rgba" + inputCSS[1]
-
+var splitShadows = function(inputCSS) {
+  
+// Remove Line Breaks if necessary
+  inputCSS = inputCSS.replace(/(\r\n|\n|\r)/gm, "")
+  
+// Split the Shadow Input taking care if it contains "box-shadow: " or not …
   splittetInput = inputCSS.split(": ")
-
   if (splittetInput.length >= 2) {
     splittetInput = splittetInput[1].split(";")
   } else {
     splittetInput = splittetInput[0].split(";")
   }
 
-  splittetInput = splittetInput[0].split(" ")
+// Split Shadows at ) and add ) again for each shadow
+  var listOfShadows = splittetInput.toString().split(")")
+  listOfShadows = listOfShadows.map(i => i + ")").slice(0,-1);
+  console.log (listOfShadows)
+}
+
+var removeRGBASpaces = function(input) {
+  // Remove Spaces in RGBA specification
+  input = input.split("rgba")
+  if (input[1].split(", ").length > 0){
+    input[1] = input[1].split(", ").join()
+  }
+  input = input[0] + "rgba" + input[1]
 }
 
 var getShadowInputData = function(input) {
@@ -140,6 +147,9 @@ var applyShadow = function(shadow) {
     }])
   })
   sketch.UI.message("🎉 Shadow applied successfully!")
+}
+
+var applyMultipleShadows = function(multipleShadows) {
 
 }
 
@@ -148,9 +158,13 @@ export default function() {
   if (selectedCount === 0) {
     sketch.UI.message("☝️ Please select a layer first.")
   } else {
-    getShadowInput()
-    splitShadow(shadowInput)
-    applyShadow(splittetInput)
+      getShadowInput()
+      splitShadows(shadowInput)
 
-  }
+      if (numberOfShadows === 1) {
+        applyShadow(splittetInput)
+      } else {
+      
+        }
+    }
 }
