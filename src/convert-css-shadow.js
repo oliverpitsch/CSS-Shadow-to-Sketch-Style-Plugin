@@ -103,29 +103,6 @@ var splitShadow = function(inputCSS) {
   }
 
   splittetInput = splittetInput[0].split(" ")
-
-  // const regExForCommaSeparation = '\w+(\([^)]+\))?'
-
-  // var checkForMultipleShadows = inputCSS.split(regExForCommaSeparation);
-  // console.log(checkForMultipleShadows)
-
-  // if (checkForMultipleShadows > 1) {
-  //   console.log("Single Shadow detected")
-  // }
-  // else {
-  //   console.log("Multiple Shadow detected")
-  // }
-
-  // if (splittetInput.length <= 2) {
-  //   singleShadow = splittetInput[0].split(" ")
-  //   console.log("Single Shadow: " + singleShadow)
-  // }
-  // else {
-  //   numberOfShadows = multipleShadows.length
-  //   console.log("Multiple Shadows registered")
-  //   console.log(multipleShadows)
-  // }
-
 }
 
 var getShadowInputData = function(input) {
