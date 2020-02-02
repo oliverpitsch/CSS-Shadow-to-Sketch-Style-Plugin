@@ -22,6 +22,8 @@ var inputColor = "#0000ff"
 var numberOfShadows = '1'
 var singleShadow = ""
 var multipleShadows = ""
+var listOfShadows = []
+var currentShadow = ""
 
 // RGBA to Hex from https://css-tricks.com/converting-color-spaces-in-javascript/
 function RGBAToHexA(rgba) {
@@ -98,9 +100,8 @@ var splitShadows = function(inputCSS) {
   }
 
 // Split Shadows at ) and add ) again for each shadow
-  var listOfShadows = splittetInput.toString().split(")")
+  listOfShadows = splittetInput.toString().split(")")
   listOfShadows = listOfShadows.map(i => i + ")").slice(0,-1);
-  console.log (listOfShadows)
 }
 
 var removeRGBASpaces = function(input) {
@@ -110,42 +111,70 @@ var removeRGBASpaces = function(input) {
     input[1] = input[1].split(", ").join()
   }
   input = input[0] + "rgba" + input[1]
+
+  currentShadow = input
 }
 
-var getShadowInputData = function(input) {
-  if (input.length === 5) {
-    inputX = input[0]
-    inputY = input[1]
-    inputBlur = input[2]
-    inputSpread = input[3]
-    inputColor = RGBAToHexA(input[4])
+var getShadowStyleData = function(input) {
+
+  removeRGBASpaces(input)
+  
+  if (currentShadow.split(", ").length > 1) {
+    currentShadow = currentShadow.slice(1).trim()
+  } else {
+    currentShadow = currentShadow
   }
-  else if (input.length === 4) {
-    inputX = input[0]
-    inputY = input[1]
-    inputBlur = input[2]
-    inputColor = RGBAToHexA(input[3])    
+
+  console.log(currentShadow)
+
+  currentShadow = currentShadow.split(" ")
+
+  if (currentShadow.length === 5) {
+    inputX = Math.round(parseFloat(currentShadow[0]))
+    inputY = Math.round(parseFloat(currentShadow[1]))
+    inputBlur = Math.round(parseFloat(currentShadow[2]))
+    inputSpread = Math.round(parseFloat(currentShadow[3]))
+    inputColor = RGBAToHexA(currentShadow[4])
+    console.log (inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
+  }
+  else if (currentShadow.length === 4) {
+    inputX = Math.round(parseFloat(currentShadow[0]))
+    inputY = Math.round(parseFloat(currentShadow[1]))
+    inputBlur = Math.round(parseFloat(currentShadow[2]))
+    inputColor = RGBAToHexA(currentShadow[3])
+    console.log (inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   }
   else {
     sketch.UI.message("Wrong Input, sorry. 😢")
   }
 }
 
-var applyShadow = function(shadow) {
-  getShadowInputData(shadow)
+var removeLeadingComma = function(inputShadow) {
+  inputShadow.replace(/(^,)|(,$)/g, "")
+  console.log(inputShadow)
+}
 
-  selectedLayers.forEach(function (layer, i) {
-    console.log(layer.style.shadows.length)
-    var layerShadows = layer.style.shadows
-    layer.style.shadows = layerShadows.concat([{
-      x: inputX,
-      y: inputY,
-      blur: inputBlur,
-      spread: inputSpread,
-      color: inputColor,
-      enabled: true
-    }])
+var applyShadows = function(listOfShadows) {
+
+  listOfShadows.forEach(function (shadow, i) {
+
+    removeRGBASpaces(shadow)
+    getShadowStyleData(shadow)
+
+    selectedLayers.forEach(function (layer, i) {
+      var layerShadows = layer.style.shadows
+      layer.style.shadows = layerShadows.concat([{
+        x: inputX,
+        y: inputY,
+        blur: inputBlur,
+        spread: inputSpread,
+        color: inputColor,
+        enabled: true
+      }])
+    })
   })
+
+  
   sketch.UI.message("🎉 Shadow applied successfully!")
 }
 
@@ -158,13 +187,8 @@ export default function() {
   if (selectedCount === 0) {
     sketch.UI.message("☝️ Please select a layer first.")
   } else {
-      getShadowInput()
-      splitShadows(shadowInput)
-
-      if (numberOfShadows === 1) {
-        applyShadow(splittetInput)
-      } else {
-      
-        }
-    }
+    getShadowInput()
+    splitShadows(shadowInput)
+    applyShadows(listOfShadows)
+  }
 }
