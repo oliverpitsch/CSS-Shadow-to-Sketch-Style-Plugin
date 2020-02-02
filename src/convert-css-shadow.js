@@ -120,10 +120,11 @@ var getShadowStyleData = function(input) {
   removeRGBASpaces(input)
   
   if (currentShadow.split(", ").length > 1) {
-    currentShadow = currentShadow.slice(1).trim()
+    currentShadow = currentShadow.slice(1)
   } else {
     currentShadow = currentShadow
   }
+  currentShadow = currentShadow.trim()
 
   console.log(currentShadow)
 
@@ -134,6 +135,7 @@ var getShadowStyleData = function(input) {
     inputY = Math.round(parseFloat(currentShadow[1]))
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputSpread = Math.round(parseFloat(currentShadow[3]))
+    console.log("Spread: " + inputSpread)
     inputColor = RGBAToHexA(currentShadow[4])
     console.log (inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   }
@@ -142,7 +144,9 @@ var getShadowStyleData = function(input) {
     inputY = Math.round(parseFloat(currentShadow[1]))
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputColor = RGBAToHexA(currentShadow[3])
+    inputSpread = "0"
     console.log (inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
+    console.log("Spread: " + inputSpread)
   }
   else {
     sketch.UI.message("Wrong Input, sorry. 😢")
@@ -172,6 +176,7 @@ var applyShadows = function(listOfShadows) {
         enabled: true
       }])
     })
+    console.log("–––––––––––––")
   })
 
   
