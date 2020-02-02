@@ -143,23 +143,6 @@ var applyShadow = function(shadow) {
 
 }
 
-// var applyMultipleShadows = function(multipleShadows) {
-
-//   multipleShadows.forEach(function (shadow, i){
-//     getShadowInputData(shadow)
-//     selectedLayers.forEach(function (layer, i) {
-//       layer.style.shadows = [{
-//         x: inputX,
-//         y: inputY,
-//         blur: inputBlur,
-//         spread: inputSpread,
-//         color: inputColor,
-//         enabled: true
-//       }]
-//     })
-//   })
-// }
-
 // This function runs it all
 export default function() {
   if (selectedCount === 0) {
