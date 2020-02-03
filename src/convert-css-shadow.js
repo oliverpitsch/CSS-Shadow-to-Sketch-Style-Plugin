@@ -29,15 +29,15 @@ var currentShadow = ""
 function RGBAToHexA(rgba) {
   let sep = rgba.indexOf(",") > -1 ? "," : " "
   rgba = rgba.substr(5).split(")")[0].split(sep)
-                
+
   // Strip the slash if using space-separated syntax
   if (rgba.indexOf("/") > -1)
-    rgba.splice(3,1)
+    rgba.splice(3, 1)
 
   for (let R in rgba) {
     let r = rgba[R];
     if (r.indexOf("%") > -1) {
-      let p = r.substr(0,r.length - 1) / 100
+      let p = r.substr(0, r.length - 1) / 100
 
       if (R < 3) {
         rgba[R] = Math.round(p * 255)
@@ -48,9 +48,9 @@ function RGBAToHexA(rgba) {
   }
 
   let r = (+rgba[0]).toString(16),
-      g = (+rgba[1]).toString(16),
-      b = (+rgba[2]).toString(16),
-      a = Math.round(+rgba[3] * 255).toString(16)
+    g = (+rgba[1]).toString(16),
+    b = (+rgba[2]).toString(16),
+    a = Math.round(+rgba[3] * 255).toString(16)
 
   if (r.length == 1)
     r = "0" + r;
@@ -64,34 +64,30 @@ function RGBAToHexA(rgba) {
   return "#" + r + g + b + a
 }
 
-
-
 // Get CSS Shadow Input as String
-var getShadowInput = function(){
+var getShadowInput = function() {
   UI.getInputFromUser(
-      "🖍 Please insert the CSS box-shadow.",
-      {
-        initialValue: 'box-shadow: 0 2.4px 3.6px rgba(0, 0, 0, 0.087), 0 6.5px 10px rgba(0, 0, 0, 0.125), 0 15.7px 24.1px rgba(0, 0, 0, 0.163), 0 52px 80px rgba(0, 0, 0, 0.25);'
-        // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
-      },
-      (err, value) => {
-        if (err) {
-          // most likely the user canceled the input
-          return
-        }
-        else {
-          shadowInput = value
-        }
+    "🖍 Please insert the CSS box-shadow.", {
+      initialValue: 'box-shadow: 0 2.4px 3.6px rgba(0, 0, 0, 0.087), 0 6.5px 10px rgba(0, 0, 0, 0.125), 0 15.7px 24.1px rgba(0, 0, 0, 0.163), 0 52px 80px rgba(0, 0, 0, 0.25);'
+      // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
+    },
+    (err, value) => {
+      if (err) {
+        // most likely the user canceled the input
+        return
+      } else {
+        shadowInput = value
       }
-    )
+    }
+  )
 }
 
 var splitShadows = function(inputCSS) {
-  
-// Remove Line Breaks if necessary
+
+  // Remove Line Breaks if necessary
   inputCSS = inputCSS.replace(/(\r\n|\n|\r)/gm, "")
-  
-// Split the Shadow Input taking care if it contains "box-shadow: " or not …
+
+  // Split the Shadow Input taking care if it contains "box-shadow: " or not …
   splittetInput = inputCSS.split(": ")
   if (splittetInput.length >= 2) {
     splittetInput = splittetInput[1].split(";")
@@ -99,16 +95,15 @@ var splitShadows = function(inputCSS) {
     splittetInput = splittetInput[0].split(";")
   }
 
-
-// Split Shadows at ) and add ) again for each shadow
+  // Split Shadows at ) and add ) again for each shadow
   listOfShadows = splittetInput.toString().split(")")
-  listOfShadows = listOfShadows.map(i => i + ")").slice(0,-1);
+  listOfShadows = listOfShadows.map(i => i + ")").slice(0, -1);
 }
 
 var removeRGBASpaces = function(input) {
   // Remove Spaces in RGBA specification
   input = input.split("rgba")
-  if (input[1].split(", ").length > 0){
+  if (input[1].split(", ").length > 0) {
     input[1] = input[1].split(", ").join()
   }
   input = input[0] + "rgba" + input[1]
@@ -117,7 +112,7 @@ var removeRGBASpaces = function(input) {
 }
 
 var getShadowStyleData = function(input) {
-  
+
   if (currentShadow.split(", ").length > 1) {
     currentShadow = currentShadow.slice(1)
   } else {
@@ -129,24 +124,21 @@ var getShadowStyleData = function(input) {
 
   currentShadow = currentShadow.split(" ")
 
-
   if (currentShadow.length === 5) {
     inputX = Math.round(parseFloat(currentShadow[0]))
     inputY = Math.round(parseFloat(currentShadow[1]))
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputSpread = Math.round(parseFloat(currentShadow[3]))
     inputColor = RGBAToHexA(currentShadow[4])
-    console.log ("Parsed 5 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
-  }
-  else if (currentShadow.length === 4) {
+    console.log("Parsed 5 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
+  } else if (currentShadow.length === 4) {
     inputX = Math.round(parseFloat(currentShadow[0]))
     inputY = Math.round(parseFloat(currentShadow[1]))
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputColor = RGBAToHexA(currentShadow[3])
     inputSpread = "0"
-    console.log ("Parsed 4 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
-  }
-  else {
+    console.log("Parsed 4 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
+  } else {
     sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
   }
 }
@@ -158,32 +150,28 @@ var removeLeadingComma = function(inputShadow) {
 
 var applyShadows = function(listOfShadows) {
   if (listOfShadows.length >= 1) {
-    listOfShadows.forEach(function (shadow, i) {
+    listOfShadows.forEach(function(shadow, i) {
 
-    removeRGBASpaces(shadow)
-    getShadowStyleData(shadow)
+      removeRGBASpaces(shadow)
+      getShadowStyleData(shadow)
 
-    selectedLayers.forEach(function (layer, i) {
-      var layerShadows = layer.style.shadows
-      layer.style.shadows = layerShadows.concat([{
-        x: inputX,
-        y: inputY,
-        blur: inputBlur,
-        spread: inputSpread,
-        color: inputColor,
-        enabled: true
-      }])
-      sketch.UI.message("🎉 Shadow applied successfully!")
-    })
-    console.log("–––––––––––––")
+      selectedLayers.forEach(function(layer, i) {
+        var layerShadows = layer.style.shadows
+        layer.style.shadows = layerShadows.concat([{
+          x: inputX,
+          y: inputY,
+          blur: inputBlur,
+          spread: inputSpread,
+          color: inputColor,
+          enabled: true
+        }])
+        sketch.UI.message("🎉 Shadow applied successfully!")
+      })
+      console.log("–––––––––––––")
     })
   } else {
     sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
   }
-}
-
-var applyMultipleShadows = function(multipleShadows) {
-
 }
 
 // This function runs it all
