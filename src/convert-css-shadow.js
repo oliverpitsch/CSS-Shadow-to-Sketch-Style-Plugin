@@ -102,6 +102,7 @@ var splitShadows = function(inputCSS) {
 // Split Shadows at ) and add ) again for each shadow
   listOfShadows = splittetInput.toString().split(")")
   listOfShadows = listOfShadows.map(i => i + ")").slice(0,-1);
+
 }
 
 var removeRGBASpaces = function(input) {
@@ -116,8 +117,8 @@ var removeRGBASpaces = function(input) {
 }
 
 var getShadowStyleData = function(input) {
-
-  removeRGBASpaces(input)
+  
+  // removeRGBASpaces(input)
   
   if (currentShadow.split(", ").length > 1) {
     currentShadow = currentShadow.slice(1)
@@ -130,13 +131,14 @@ var getShadowStyleData = function(input) {
 
   currentShadow = currentShadow.split(" ")
 
+
   if (currentShadow.length === 5) {
     inputX = Math.round(parseFloat(currentShadow[0]))
     inputY = Math.round(parseFloat(currentShadow[1]))
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputSpread = Math.round(parseFloat(currentShadow[3]))
     inputColor = RGBAToHexA(currentShadow[4])
-    console.log (inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
+    console.log ("Parsed 5 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   }
   else if (currentShadow.length === 4) {
     inputX = Math.round(parseFloat(currentShadow[0]))
@@ -144,7 +146,7 @@ var getShadowStyleData = function(input) {
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputColor = RGBAToHexA(currentShadow[3])
     inputSpread = "0"
-    console.log ("Parsed Data: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
+    console.log ("Parsed 4 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   }
   else {
     sketch.UI.message("Wrong Input, sorry. 😢")
@@ -173,12 +175,12 @@ var applyShadows = function(listOfShadows) {
         color: inputColor,
         enabled: true
       }])
+      sketch.UI.message("🎉 Shadow applied successfully!")
     })
     console.log("–––––––––––––")
   })
 
   
-  sketch.UI.message("🎉 Shadow applied successfully!")
 }
 
 var applyMultipleShadows = function(multipleShadows) {
