@@ -23,5 +23,6 @@
   "devDependencies": {
     "@skpm/builder": "^0.7.0"
   },
-  "author": "Oliver Pitsch <oliver@pitsch.me>"
+  "author": "Oliver Pitsch <oliver@pitsch.me>",
+  "repository": "https://github.com/oliverpitsch/CSS-Shadow-to-Sketch-Style-Plugin"
 }
