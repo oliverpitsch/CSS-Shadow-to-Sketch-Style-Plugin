@@ -1,5 +1,7 @@
 # CSS box-shadow to Layer Style
 
+Easily convert CSS box-shadows to Sketch Layer styles.
+
 Inspired by [Philipp Brumm’s](https://github.com/brumm) tool [brumm.af/shadows](https://brumm.af/shadows). Feel free to copy a box shadow from his tool and enter it in sketch. 
 
 ## Demo Box-Shadow
