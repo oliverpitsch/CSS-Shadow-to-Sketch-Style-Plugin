@@ -71,7 +71,7 @@ var getShadowInput = function(){
   UI.getInputFromUser(
       "🖍 Please insert the CSS box-shadow.",
       {
-        initialValue: 'box-shadow: 0 6.7px 5.3px rgba(0, 0, 0, 0.028), 0 22.3px 17.9px rgba(0, 0, 0, 0.042), 0 100px 80px rgba(0, 0, 0, 0.07);'
+        initialValue: 'box-shadow: 0 2.4px 3.6px rgba(0, 0, 0, 0.087), 0 6.5px 10px rgba(0, 0, 0, 0.125), 0 15.7px 24.1px rgba(0, 0, 0, 0.163), 0 52px 80px rgba(0, 0, 0, 0.25);'
         // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
       },
       (err, value) => {
