@@ -3,13 +3,13 @@
   "icon": "icon.png",
   "commands": [
     {
-      "name": "Convert box-shadow to layer style",
+      "name": "Apply box-shadow",
       "identifier": "css-to-shadow-style.convert-css-shadow-identifier",
       "script": "./convert-css-shadow.js"
     }
   ],
   "menu": {
-    "title": "CSS Box Shadow Converter",
+    "title": "CSS box-shadow Converter",
     "items": [
       "css-to-shadow-style.convert-css-shadow-identifier"
     ]
