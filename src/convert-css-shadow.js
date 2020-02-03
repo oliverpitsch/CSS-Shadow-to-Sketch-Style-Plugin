@@ -99,10 +99,10 @@ var splitShadows = function(inputCSS) {
     splittetInput = splittetInput[0].split(";")
   }
 
+
 // Split Shadows at ) and add ) again for each shadow
   listOfShadows = splittetInput.toString().split(")")
   listOfShadows = listOfShadows.map(i => i + ")").slice(0,-1);
-
 }
 
 var removeRGBASpaces = function(input) {
@@ -117,8 +117,6 @@ var removeRGBASpaces = function(input) {
 }
 
 var getShadowStyleData = function(input) {
-  
-  // removeRGBASpaces(input)
   
   if (currentShadow.split(", ").length > 1) {
     currentShadow = currentShadow.slice(1)
@@ -149,7 +147,7 @@ var getShadowStyleData = function(input) {
     console.log ("Parsed 4 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   }
   else {
-    sketch.UI.message("Wrong Input, sorry. 😢")
+    sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
   }
 }
 
@@ -159,8 +157,8 @@ var removeLeadingComma = function(inputShadow) {
 }
 
 var applyShadows = function(listOfShadows) {
-
-  listOfShadows.forEach(function (shadow, i) {
+  if (listOfShadows.length >= 1) {
+    listOfShadows.forEach(function (shadow, i) {
 
     removeRGBASpaces(shadow)
     getShadowStyleData(shadow)
@@ -178,9 +176,10 @@ var applyShadows = function(listOfShadows) {
       sketch.UI.message("🎉 Shadow applied successfully!")
     })
     console.log("–––––––––––––")
-  })
-
-  
+    })
+  } else {
+    sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
+  }
 }
 
 var applyMultipleShadows = function(multipleShadows) {
