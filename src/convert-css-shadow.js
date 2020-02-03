@@ -126,7 +126,7 @@ var getShadowStyleData = function(input) {
   }
   currentShadow = currentShadow.trim()
 
-  console.log(currentShadow)
+  console.log("Input Shadow: " + currentShadow)
 
   currentShadow = currentShadow.split(" ")
 
@@ -135,7 +135,6 @@ var getShadowStyleData = function(input) {
     inputY = Math.round(parseFloat(currentShadow[1]))
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputSpread = Math.round(parseFloat(currentShadow[3]))
-    console.log("Spread: " + inputSpread)
     inputColor = RGBAToHexA(currentShadow[4])
     console.log (inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   }
@@ -145,8 +144,7 @@ var getShadowStyleData = function(input) {
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputColor = RGBAToHexA(currentShadow[3])
     inputSpread = "0"
-    console.log (inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
-    console.log("Spread: " + inputSpread)
+    console.log ("Parsed Data: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   }
   else {
     sketch.UI.message("Wrong Input, sorry. 😢")
