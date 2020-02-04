@@ -69,7 +69,7 @@ function RGBAToHexA(rgba) {
 var getShadowInput = function() {
   UI.getInputFromUser(
     "🖍 Please insert the CSS box-shadow.", {
-      initialValue: 'box-shadow: 0 2.4px 3.6px rgba(0, 0, 0, 0.087), 0 6.5px 10px rgba(0, 0, 0, 0.125), 0 15.7px 24.1px rgba(0, 0, 0, 0.163), 0 52px 80px rgba(0, 0, 0, 0.25);'
+      initialValue: 'box-shadow: inset 0 2.4px 3.6px rgba(0, 0, 0, 0.087), 0 6.5px 10px rgba(0, 0, 0, 0.125), 0 15.7px 24.1px rgba(0, 0, 0, 0.163), 0 52px 80px rgba(0, 0, 0, 0.25);'
       // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
     },
     (err, value) => {
@@ -99,6 +99,13 @@ var splitShadows = function(inputCSS) {
   // Split Shadows at ) and add ) again for each shadow
   listOfShadows = splittetInput.toString().split(")")
   listOfShadows = listOfShadows.map(i => i + ")").slice(0, -1);
+
+  for (var i = listOfShadows.length - 1; i >= 0; i--) {
+    if (listOfShadows[i].split(" ")[0] == "inset") { 
+      listOfInnerShadows.push(listOfShadows[i])
+      listOfShadows.splice(i, 1);
+    }
+  }
 }
 
 var removeRGBASpaces = function(input) {
