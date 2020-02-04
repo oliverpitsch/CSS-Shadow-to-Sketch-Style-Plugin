@@ -5,7 +5,10 @@
     {
       "name": "Apply box-shadow",
       "identifier": "css-to-shadow-style.convert-css-shadow-identifier",
-      "script": "./convert-css-shadow.js"
+      "script": "./convert-css-shadow.js",
+      "icon": "icon.png",
+      "iconDark": "icon.png",
+      "description": "Convert CSS box-shadows to Layer Styles"
     }
   ],
   "menu": {
