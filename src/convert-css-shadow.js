@@ -23,6 +23,7 @@ var numberOfShadows = '1'
 var singleShadow = ""
 var multipleShadows = ""
 var listOfShadows = []
+var listOfInnerShadows = []
 var currentShadow = ""
 
 // RGBA to Hex from https://css-tricks.com/converting-color-spaces-in-javascript/
@@ -172,6 +173,32 @@ var applyShadows = function(listOfShadows) {
   } else {
     sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
   }
+}
+
+var applyInnerShadows = function(listOfInnerShadows){
+  if (listOfInnerShadows.length >= 1) {
+      listOfInnerShadows.forEach(function(innerShadow, i) {
+
+        removeRGBASpaces(innerShadow)
+        getShadowStyleData(innerShadow)
+
+        selectedLayers.forEach(function(layer, i) {
+          var layerInnerShadows = layer.style.innerShadows
+          layer.style.innerShadows = layerInnerShadows.concat([{
+            x: inputX,
+            y: inputY,
+            blur: inputBlur,
+            spread: inputSpread,
+            color: inputColor,
+            enabled: true
+          }])
+          sketch.UI.message("🎉 Shadow applied successfully!")
+        })
+        console.log("–––––––––––––")
+      })
+    } else {
+      sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
+    }
 }
 
 // This function runs it all
