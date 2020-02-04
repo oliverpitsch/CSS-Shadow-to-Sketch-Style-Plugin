@@ -69,7 +69,7 @@ function RGBAToHexA(rgba) {
 var getShadowInput = function() {
   UI.getInputFromUser(
     "🖍 Please insert the CSS box-shadow.", {
-      initialValue: 'box-shadow: inset 0 1 1 rgba(255, 255, 255, 1), 0 6.5px 10px rgba(0, 0, 0, 0.125), 0 15.7px 24.1px rgba(0, 0, 0, 0.163), 0 52px 80px rgba(0, 0, 0, 0.25);'
+      initialValue: 'box-shadow: inset 0 2 1 rgba(255,255,255,0.75), 0 2.1px 2.2px -2px rgba(0, 0, 0, 0.13), 0 5.8px 6.1px -2px rgba(0, 0, 0, 0.139), 0 13.9px 14.8px -2px rgba(0, 0, 0, 0.142), 0 46px 49px -2px rgba(0, 0, 0, 0.15);'
       // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
     },
     (err, value) => {
