@@ -23,6 +23,7 @@ var numberOfShadows = '1'
 var singleShadow = ""
 var multipleShadows = ""
 var listOfShadows = []
+var listOfInnerShadows = []
 var currentShadow = ""
 
 // RGBA to Hex from https://css-tricks.com/converting-color-spaces-in-javascript/
@@ -68,7 +69,7 @@ function RGBAToHexA(rgba) {
 var getShadowInput = function() {
   UI.getInputFromUser(
     "🖍 Please insert the CSS box-shadow.", {
-      initialValue: 'box-shadow: 0 2.4px 3.6px rgba(0, 0, 0, 0.087), 0 6.5px 10px rgba(0, 0, 0, 0.125), 0 15.7px 24.1px rgba(0, 0, 0, 0.163), 0 52px 80px rgba(0, 0, 0, 0.25);'
+      initialValue: 'box-shadow: inset 0 2 1 rgba(255,255,255,0.75), 0 2.1px 2.2px -2px rgba(0, 0, 0, 0.13), 0 5.8px 6.1px -2px rgba(0, 0, 0, 0.139), 0 13.9px 14.8px -2px rgba(0, 0, 0, 0.142), 0 46px 49px -2px rgba(0, 0, 0, 0.15);'
       // initialValue: 'box-shadow: 0 2px 4px rgba(0,0,0,0.6);',
     },
     (err, value) => {
@@ -98,6 +99,13 @@ var splitShadows = function(inputCSS) {
   // Split Shadows at ) and add ) again for each shadow
   listOfShadows = splittetInput.toString().split(")")
   listOfShadows = listOfShadows.map(i => i + ")").slice(0, -1);
+
+  for (var i = listOfShadows.length - 1; i >= 0; i--) {
+    if (listOfShadows[i].split(" ")[0] == "inset") { 
+      listOfInnerShadows.push(listOfShadows[i])
+      listOfShadows.splice(i, 1);
+    }
+  }
 }
 
 var removeRGBASpaces = function(input) {
@@ -113,15 +121,19 @@ var removeRGBASpaces = function(input) {
 
 var getShadowStyleData = function(input) {
 
+  if (currentShadow.split("inset").length > 1) {
+    currentShadow = currentShadow.split("inset ")[1]
+  } else {
+    currentShadow = currentShadow
+  }
+
   if (currentShadow.split(", ").length > 1) {
     currentShadow = currentShadow.slice(1)
   } else {
     currentShadow = currentShadow
   }
+
   currentShadow = currentShadow.trim()
-
-  console.log("Input Shadow: " + currentShadow)
-
   currentShadow = currentShadow.split(" ")
 
   if (currentShadow.length === 5) {
@@ -130,14 +142,12 @@ var getShadowStyleData = function(input) {
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputSpread = Math.round(parseFloat(currentShadow[3]))
     inputColor = RGBAToHexA(currentShadow[4])
-    console.log("Parsed 5 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   } else if (currentShadow.length === 4) {
     inputX = Math.round(parseFloat(currentShadow[0]))
     inputY = Math.round(parseFloat(currentShadow[1]))
     inputBlur = Math.round(parseFloat(currentShadow[2]))
     inputColor = RGBAToHexA(currentShadow[3])
     inputSpread = "0"
-    console.log("Parsed 4 Data Points: " + inputX + ", " + inputY + ", " + inputBlur + ", " + inputSpread + ", " + inputColor)
   } else {
     sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
   }
@@ -145,7 +155,6 @@ var getShadowStyleData = function(input) {
 
 var removeLeadingComma = function(inputShadow) {
   inputShadow.replace(/(^,)|(,$)/g, "")
-  console.log(inputShadow)
 }
 
 var applyShadows = function(listOfShadows) {
@@ -167,11 +176,35 @@ var applyShadows = function(listOfShadows) {
         }])
         sketch.UI.message("🎉 Shadow applied successfully!")
       })
-      console.log("–––––––––––––")
     })
   } else {
     sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
   }
+}
+
+var applyInnerShadows = function(listOfInnerShadows){
+  if (listOfInnerShadows.length >= 1) {
+      listOfInnerShadows.forEach(function(innerShadow, i) {
+
+        removeRGBASpaces(innerShadow)
+        getShadowStyleData(innerShadow)
+
+        selectedLayers.forEach(function(layer, i) {
+          var layerInnerShadows = layer.style.innerShadows
+          layer.style.innerShadows = layerInnerShadows.concat([{
+            x: inputX,
+            y: inputY,
+            blur: inputBlur,
+            spread: inputSpread,
+            color: inputColor,
+            enabled: true
+          }])
+          sketch.UI.message("🎉 Shadow applied successfully!")
+        })
+      })
+    } else {
+      sketch.UI.message("🤔 Oops. Sure that was a valid box-shadow?")
+    }
 }
 
 // This function runs it all
@@ -182,5 +215,6 @@ export default function() {
     getShadowInput()
     splitShadows(shadowInput)
     applyShadows(listOfShadows)
+    applyInnerShadows(listOfInnerShadows)
   }
 }
