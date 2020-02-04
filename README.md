@@ -2,14 +2,14 @@
 
 ![Repository Image](https://i.imgur.com/4gbm2dp.png)
 
-Easily convert CSS box-shadows to Sketch Layer styles.
+Easily convert CSS box-shadows to Sketch Layer styles. Inset box-shadows are also suppported.
 
 Inspired by [Philipp Brumm’s](https://github.com/brumm) tool [brumm.af/shadows](https://brumm.af/shadows). Feel free to copy a box shadow from his tool and enter it in sketch. 
 
 ## Demo Box-Shadow
 Try the plugin for yourself with the following demo box-shadow:
 
-```box-shadow: 0 2.4px 3.6px rgba(0, 0, 0, 0.087), 0 6.5px 10px rgba(0, 0, 0, 0.125), 0 15.7px 24.1px rgba(0, 0, 0, 0.163), 0 52px 80px rgba(0, 0, 0, 0.25);```
+```box-shadow: inset 0 2 1 rgba(255,255,255,0.75), 0 2.1px 2.2px -2px rgba(0, 0, 0, 0.13), 0 5.8px 6.1px -2px rgba(0, 0, 0, 0.139), 0 13.9px 14.8px -2px rgba(0, 0, 0, 0.142), 0 46px 49px -2px rgba(0, 0, 0, 0.15);```
 
 ## Installation
 
