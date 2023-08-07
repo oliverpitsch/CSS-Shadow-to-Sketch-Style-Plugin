@@ -2,6 +2,8 @@
 
 ![Repository Image](https://i.imgur.com/4gbm2dp.png)
 
+> ⚠️ This plugin is no longer maintained. Feel free to download as is.
+
 Easily convert CSS box-shadows to Sketch Layer styles. Inset box-shadows are also suppported.
 
 Inspired by [Philipp Brumm’s](https://github.com/brumm) tool [brumm.af/shadows](https://brumm.af/shadows). Feel free to copy a box shadow from his tool and enter it in sketch. 
